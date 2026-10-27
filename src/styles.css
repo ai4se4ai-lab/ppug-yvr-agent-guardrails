@@ -1,0 +1,79 @@
+@import "tailwindcss";
+@source "../node_modules/streamdown/dist/*.js";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
+
+  --color-bg: #0b0b0f;
+  --color-panel: #121218;
+  --color-raised: #1a1a22;
+  --color-line: #26262f;
+  --color-ink: #ececf1;
+  --color-muted: #8b8b98;
+  --color-faint: #5c5c68;
+
+  --color-brand: #f6821f;
+  --color-brand-soft: #f6821f22;
+  --color-allow: #34d399;
+  --color-review: #fbbf24;
+  --color-block: #f87171;
+  --color-info: #60a5fa;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-bg font-sans text-ink antialiased;
+  font-feature-settings: "cv11", "ss01";
+}
+
+::selection {
+  background: var(--color-brand-soft);
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+
+.glow {
+  background:
+    radial-gradient(60rem 30rem at 85% -10%, #f6821f14, transparent 60%),
+    radial-gradient(40rem 24rem at -10% 110%, #60a5fa0d, transparent 60%);
+}
+
+.prose-chat {
+  @apply text-[15px] leading-relaxed;
+}
+.prose-chat :where(p, ul, ol, pre, table) {
+  @apply my-2;
+}
+.prose-chat :where(ul) {
+  @apply list-disc pl-5;
+}
+.prose-chat :where(ol) {
+  @apply list-decimal pl-5;
+}
+.prose-chat :where(code):not(pre code) {
+  @apply rounded bg-raised px-1 py-0.5 font-mono text-[13px];
+}
+.prose-chat :where(a) {
+  @apply text-brand underline-offset-2 hover:underline;
+}
+
+@keyframes pulse-dot {
+  50% {
+    opacity: 0.35;
+  }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 1.2s ease-in-out infinite;
+}
