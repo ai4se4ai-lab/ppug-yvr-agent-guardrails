@@ -119,7 +119,7 @@ export function messageText(message: ModelMessage): string {
     .trim();
 }
 
-export const WITHHELD = "[message withheld by the Agent Firewall]";
+export const WITHHELD = "[message withheld by Agent Guardrails]";
 
 /** Append a note to the latest user message; models follow notes next to the request more reliably. */
 export function annotateLastUser(

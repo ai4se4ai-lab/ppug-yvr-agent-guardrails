@@ -16,7 +16,7 @@ import type { ClefAnswers } from "../system-one/clef";
  * Trace, then:
  *   1. Add questions (ideas: exfiltration, matches_request, a `score` for overall risk).
  *   2. Write the rules below. Keep read-only lookups fast; make money movement need a human.
- *   3. Re-run the scenarios and tune with the sliders in the Agent Firewall panel.
+ *   3. Re-run the scenarios and tune with the sliders in the Agent Guardrails panel.
  */
 export const TOOL_QUESTIONS = {
   destructive: {

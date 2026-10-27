@@ -1,13 +1,13 @@
-# Agent Firewall
+# Agent Guardrails
 
 **Cloudflare Peer Point User Group: System One hackathon starter**
 
-A stateful support agent ("Nimbus" for the fictional Acme Cloud) protected by an **Agent Firewall**
+A stateful support agent ("Nimbus" for the fictional Acme Cloud) protected by **Agent Guardrails**
 built on Cloudflare's **Clef-flash** decision model. Every prompt, every tool call and every reply
 gets a calibrated verdict in tens of milliseconds, long before a slow, expensive LLM could reason
 about it.
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/vnikhilbuddhavarapu/ppug-agent-firewall)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/vnikhilbuddhavarapu/ppug-yvr-agent-guardrails)
 
 ```
                 ┌────────────── Durable Object (one per chat session) ──────────────┐
@@ -44,8 +44,8 @@ about it.
 Prerequisites: Node.js 24+, and a Cloudflare account (provided at the event).
 
 ```bash
-git clone https://github.com/vnikhilbuddhavarapu/ppug-agent-firewall
-cd ppug-agent-firewall
+git clone https://github.com/vnikhilbuddhavarapu/ppug-yvr-agent-guardrails
+cd ppug-yvr-agent-guardrails
 npm install
 npx wrangler login        # Workers AI has no local simulator, so dev talks to your account
 npm run dev               # http://localhost:5173
@@ -60,7 +60,7 @@ CLOUDFLARE_ACCOUNT_ID=<your-account-id> npm run dev
 Ship it:
 
 ```bash
-npm run deploy            # prints your https://ppug-agent-firewall.<you>.workers.dev URL
+npm run deploy            # prints your https://ppug-yvr-agent-guardrails.<you>.workers.dev URL
 ```
 
 ### Try the scenarios
@@ -138,7 +138,7 @@ override async onChatResponse(result: ChatResponseResult): Promise<void> {
   const outcome = evaluateOutput(answers, policy);
   if (outcome.verdict === "allow") return;
   await this.deliverNotice({
-    markdown: `**Agent Firewall** flagged the previous reply (${outcome.reasons.join(", ")}).`,
+    markdown: `**Agent Guardrails** flagged the previous reply (${outcome.reasons.join(", ")}).`,
   });
 }
 ```

@@ -99,7 +99,7 @@ export class ChatAgent extends SystemOneAgent {
       return {
         messages: await redactBlocked(ctx.messages, blocked),
         activeTools: [],
-        instructions: `${ctx.system}\n\n## Agent Firewall\nThe customer's latest message was blocked before you could see it (${outcome.reasons.join(", ")}). In at most two sentences, say the message was blocked by the Agent Firewall, name the reason in plain words, and offer legitimate help. Do not speculate about its content.`,
+        instructions: `${ctx.system}\n\n## Agent Guardrails\nThe customer's latest message was blocked before you could see it (${outcome.reasons.join(", ")}). In at most two sentences, say the message was blocked by Agent Guardrails, name the reason in plain words, and offer legitimate help. Do not speculate about its content.`,
       };
     }
     if (outcome.action === "warn") {
@@ -107,7 +107,7 @@ export class ChatAgent extends SystemOneAgent {
       return {
         messages: annotateLastUser(
           messages,
-          `[Agent Firewall note to assistant: this message was flagged (${outcome.reasons.join(", ")}). ` +
+          `[Agent Guardrails note to assistant: this message was flagged (${outcome.reasons.join(", ")}). ` +
             (offTopic
               ? "It is outside Acme Cloud support: do NOT fulfil it. Politely decline in one sentence and offer Acme Cloud help.]"
               : "Mention the flag briefly and never repeat sensitive data back.]"),
@@ -182,7 +182,7 @@ export class ChatAgent extends SystemOneAgent {
       this.bumpStats("block");
       return {
         action: "block",
-        reason: `Blocked by the Agent Firewall: ${decision.reasons.join(", ")}`,
+        reason: `Blocked by Agent Guardrails: ${decision.reasons.join(", ")}`,
       };
     }
   }

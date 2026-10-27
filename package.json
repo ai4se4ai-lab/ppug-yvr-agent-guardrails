@@ -1,5 +1,5 @@
 {
-  "name": "ppug-agent-firewall",
+  "name": "ppug-yvr-agent-guardrails",
   "version": "1.0.0",
   "private": true,
   "type": "module",

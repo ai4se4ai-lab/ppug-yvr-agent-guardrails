@@ -67,7 +67,9 @@ export function SidebarExtras({ state, call }: ExtensionProps) {
         ) : (
           <ShieldSlash weight="fill" className="text-block" />
         )}
-        <h2 className="text-sm font-semibold tracking-tight">Agent Firewall</h2>
+        <h2 className="text-sm font-semibold tracking-tight">
+          Agent Guardrails
+        </h2>
         <button
           type="button"
           onClick={() => save({ ...draft, enabled: !draft.enabled })}

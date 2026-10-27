@@ -9,8 +9,8 @@ export type Scenario = {
 };
 
 export const APP = {
-  slug: "ppug-agent-firewall",
-  name: "Agent Firewall",
+  slug: "ppug-yvr-agent-guardrails",
+  name: "Agent Guardrails",
   tagline:
     "Clef-flash screens every prompt, tool call and reply in milliseconds.",
   scenarios: [

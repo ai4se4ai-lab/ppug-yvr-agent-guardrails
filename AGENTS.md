@@ -1,11 +1,11 @@
-# AGENTS.md: Agent Firewall (PPUG System One starter)
+# AGENTS.md: Agent Guardrails (PPUG System One starter)
 
 Context for AI coding agents (OpenCode, Devin, Claude Code, Cursor) working in this repo.
 
 ## What this is
 
 A hackathon starter: a stateful Cloudflare **Think** chat agent ("Nimbus", support for the fictional
-Acme Cloud) guarded by an **Agent Firewall** built on the **Clef-flash** System One decision model.
+Acme Cloud) guarded by **Agent Guardrails** built on the **Clef-flash** System One decision model.
 Attendees extend it through checkpoints (see README.md). Keep changes small, demoable and
 consistent with the existing structure.
 

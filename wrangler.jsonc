@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "ppug-agent-firewall",
+  "name": "ppug-yvr-agent-guardrails",
   "main": "src/server.ts",
   "compatibility_date": "2026-10-19",
   "compatibility_flags": ["nodejs_compat"],
