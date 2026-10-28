@@ -27,6 +27,7 @@ consistent with the existing structure.
   - `beforeTurn(ctx)`: CHECKPOINT 0 input firewall (implemented).
   - `needsApproval` / `beforeToolCall(ctx)`: CHECKPOINT 1 tool firewall (wiring done; rules in `src/firewall/tool-gate.ts`).
   - `onChatResponse(result)`: CHECKPOINT 2 output guardrail (attendee task; snippet in README).
+  - CHECKPOINT 3 (attendee, boss level): escalate unsure verdicts to `clef`, log attacks to SQLite (`this.sql`), leaderboard + `attack_report` tool. Never store full prompts.
   - `@callable()` methods (`setPolicy`, `resetStats`) are RPC from the UI via `agent.call(...)`.
 - `src/agent/system-one-agent.ts`: shared base, rarely needs edits. Picks the LLM through AI Gateway
   (`createAI`), configures memory (`configureContext`: `soul` + writable `memory`), and provides
