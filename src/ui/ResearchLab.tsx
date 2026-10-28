@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   evaluateDevelopmentAction,
   MODES,
   POLICY_VERSION,
   type DevelopmentContext,
   type ThreatScores,
+  type ResearchDecision,
+  type PolicyMode,
 } from "../research/policy";
 
 type Summary = {
@@ -51,13 +53,37 @@ const INITIAL_SCORES: ThreatScores = {
 const control =
   "w-full rounded-lg border border-line bg-bg px-3 py-2 text-sm text-ink";
 
+type LiveResult = {
+  scores: ThreatScores;
+  decisions: Record<PolicyMode, ResearchDecision>;
+  modelId: string;
+  latencyMs: number;
+  request: string;
+  environment: DevelopmentContext["environment"];
+  completedAt: string;
+};
+
+function savedToken(): string {
+  try {
+    return sessionStorage.getItem("research-token") ?? "";
+  } catch {
+    return "";
+  }
+}
+
+function decisionLabel(action: ResearchDecision["action"]): string {
+  return action === "approve"
+    ? "Review required"
+    : action === "block"
+      ? "Blocked"
+      : "Allowed";
+}
+
 export function ResearchLab() {
   const [context, setContext] = useState(INITIAL_CONTEXT);
   const [scores, setScores] = useState(INITIAL_SCORES);
   const [reports, setReports] = useState<Report[]>([]);
-  const [token, setToken] = useState(
-    () => sessionStorage.getItem("research-token") ?? "",
-  );
+  const [token, setToken] = useState(savedToken);
   const [request, setRequest] = useState(
     "Change application row 1's label to fixed.",
   );
@@ -67,6 +93,9 @@ export function ResearchLab() {
   );
   const [untrusted, setUntrusted] = useState("");
   const [busy, setBusy] = useState(false);
+  const [liveResult, setLiveResult] = useState<LiveResult | null>(null);
+  const [assessmentError, setAssessmentError] = useState<string | null>(null);
+  const liveResultRef = useRef<HTMLDivElement>(null);
   const [notice, setNotice] = useState(
     "Illustrative scores. No model call has been made.",
   );
@@ -81,19 +110,37 @@ export function ResearchLab() {
       })
       .catch(() => setReports([]));
   }, []);
+  useEffect(() => {
+    if (liveResult)
+      liveResultRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+  }, [liveResult]);
   const decisions = MODES.map((mode) =>
     evaluateDevelopmentAction(context, scores, mode),
   );
   const liveAssess = async () => {
     setBusy(true);
+    setLiveResult(null);
+    setAssessmentError(null);
+    setNotice("Running live assessment…");
     try {
       const args: unknown = JSON.parse(argumentsText);
-      sessionStorage.setItem("research-token", token);
+      const accessToken = token.trim();
+      if (!accessToken)
+        throw new Error("Enter your research access token first.");
+      try {
+        sessionStorage.setItem("research-token", accessToken);
+      } catch {
+        // Storage may be unavailable; it must not prevent a live assessment.
+      }
       const response = await fetch("/api/research/assess", {
         method: "POST",
+        signal: AbortSignal.timeout(45000),
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           request,
@@ -108,15 +155,41 @@ export function ResearchLab() {
         scores: ThreatScores;
         latencyMs: number;
         modelId: string;
+        decisions: Record<PolicyMode, ResearchDecision>;
       };
       if (!response.ok)
         throw new Error(result.error ?? `HTTP ${response.status}`);
+      if (
+        !result.scores ||
+        !result.decisions?.static ||
+        !result.decisions?.adaptive
+      ) {
+        throw new Error(
+          "The assessment response was incomplete. Please try again.",
+        );
+      }
       setScores(result.scores);
+      setLiveResult({
+        scores: result.scores,
+        decisions: result.decisions,
+        modelId: result.modelId,
+        latencyMs: result.latencyMs,
+        request,
+        environment: context.environment,
+        completedAt: new Date().toLocaleTimeString(),
+      });
       setNotice(
         `Live ${result.modelId} assessment · ${result.latencyMs} ms. Context is supplied by this research form.`,
       );
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : String(error));
+      const message =
+        error instanceof Error && error.name === "TimeoutError"
+          ? "The assessment timed out. Please try again."
+          : error instanceof Error
+            ? error.message
+            : String(error);
+      setAssessmentError(message);
+      setNotice("Live assessment did not complete.");
     } finally {
       setBusy(false);
     }
@@ -399,9 +472,76 @@ export function ResearchLab() {
               {busy ? "Assessing…" : "Run live assessment"}
             </button>
           </div>
-          <p role="status" className="text-xs text-muted">
+          <p role="status" aria-live="polite" className="text-xs text-muted">
             {notice}
           </p>
+          {assessmentError && (
+            <div
+              role="alert"
+              className="rounded-lg border border-block/40 bg-block/10 p-4 text-sm text-block"
+            >
+              <p className="font-semibold">Assessment could not run</p>
+              <p className="mt-1">{assessmentError}</p>
+            </div>
+          )}
+          {liveResult && (
+            <div
+              ref={liveResultRef}
+              className="space-y-4 rounded-xl border border-brand/50 bg-brand/5 p-5"
+              aria-label="Live assessment result"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="text-lg font-semibold">
+                  Live assessment result
+                </h3>
+                <span className="text-xs text-muted">
+                  {liveResult.completedAt} · {liveResult.latencyMs} ms
+                </span>
+              </div>
+              <p className="text-sm text-muted">{liveResult.request}</p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {(["static", "adaptive"] as const).map((mode) => {
+                  const decision = liveResult.decisions[mode];
+                  return (
+                    <div
+                      key={mode}
+                      className="rounded-lg border border-line bg-bg p-4"
+                    >
+                      <p className="text-xs text-muted">
+                        {mode === "static" ? "Fixed policy" : "Adaptive policy"}{" "}
+                        · {liveResult.environment}
+                      </p>
+                      <p
+                        className={`mt-2 text-xl font-semibold ${decision.action === "allow" ? "text-allow" : decision.action === "block" ? "text-block" : "text-review"}`}
+                      >
+                        {decisionLabel(decision.action)}
+                      </p>
+                      <p className="mt-2 text-xs text-muted">
+                        {decision.reasons.join("; ")}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                {(Object.keys(liveResult.scores) as (keyof ThreatScores)[]).map(
+                  (key) => (
+                    <div key={key} className="rounded-lg bg-bg p-3">
+                      <p className="text-xs text-muted">{key}</p>
+                      <p className="mt-1 font-mono text-lg">
+                        {(liveResult.scores[key] * 100).toFixed(1)}%
+                      </p>
+                    </div>
+                  ),
+                )}
+              </div>
+              <p className="text-xs text-muted">
+                Measured by {liveResult.modelId}. This is the result for the
+                submitted context; changing the form does not rerun the model.
+                The proposed tool was not executed.
+              </p>
+            </div>
+          )}
         </section>
         <section className="space-y-5">
           <h2 className="text-xl font-semibold">Recorded benchmark runs</h2>
