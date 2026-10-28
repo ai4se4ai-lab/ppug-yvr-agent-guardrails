@@ -2,7 +2,7 @@
   "suite": "development-context-v1",
   "kind": "controlled action-level pilot",
   "provenance": {
-    "repositoryCommit": "280ca6a881bfa0c60d2a589af02e449eb2a5da85",
+    "repositoryCommit": "cf878f145dd77973a8cdf115849863838e6d2ae9",
     "workingTreeDirty": true,
     "policySha256": "8835ef8c449e7ebab1254ab9f7013eb79cfa698f6e1b19c60d3d946cb2c1aa9e",
     "schemaSha256": "59029051756acaa2820b844161b36816d30f58b33d62d6251c22138836294516",
@@ -13,11 +13,11 @@
       "src/research/policy.ts": "8835ef8c449e7ebab1254ab9f7013eb79cfa698f6e1b19c60d3d946cb2c1aa9e",
       "src/research/schema.ts": "59029051756acaa2820b844161b36816d30f58b33d62d6251c22138836294516",
       "src/server.ts": "21c7d097a01a362f403d6070abfcbe1d763cea0a661517eaa8cacf0b5ce86e07",
-      "research/dev_context.py": "e068f1150e71fef56b8eca96186b9e237aa811fcff425fb620b0b28c64dce5eb",
-      "research/agentdojo_eval.py": "a180f9f44e16e8de99d5f1e2e288d09bb2008f71da04d7bb464babe7abc21b54",
-      "research/common.py": "07b9fbc05d3744df5687ea1a4e5fd07b550000d02221a59ac9703aca46148e87"
+      "research/dev_context.py": "d4d4f4956d3a780c091839ccb693557c53868737c3bce074bedcf6f0d93dcf5d",
+      "research/agentdojo_eval.py": "4c372de0bedba45f80d157b87b99d08ea2ef2ba336ca693d43e6fdedcfc73360",
+      "research/common.py": "75b1e3104489c40f4fadc0f78f00d4aa0aec5022563f42428b61bd78b995a618"
     },
-    "timestampUtc": "2026-10-28T22:54:53Z"
+    "timestampUtc": "2026-10-28T23:17:27Z"
   },
   "fixtureSha256": "a281af586a84a18a25a26dda0f0bd504bed349281b94344362478b70b66d7109",
   "endpoint": "https://ppug-yvr-agent-guardrails.steady-century.workers.dev",
@@ -28,7 +28,7 @@
     "dc619017801391ec3c156ffb10afaed1b3f4c45c2b243903d324bbe0aa572a87"
   ],
   "failedCases": 0,
-  "wallSeconds": 18.85,
+  "wallSeconds": 0.45,
   "classifierLatencyMedianMs": 248.5,
   "summaries": [
     {
