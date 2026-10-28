@@ -1,5 +1,14 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "printWidth": 80,
-  "ignorePatterns": ["env.d.ts", "dist", ".wrangler", "node_modules", "*.md"]
+  "ignorePatterns": [
+    "env.d.ts",
+    "dist",
+    ".wrangler",
+    ".research",
+    "research/results",
+    "public/research-results.json",
+    "node_modules",
+    "*.md"
+  ]
 }

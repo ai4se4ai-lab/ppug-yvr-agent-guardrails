@@ -98,6 +98,9 @@ function Workspace({
           <h1 className="truncate text-[15px] font-semibold tracking-tight">
             {APP.name}
           </h1>
+          <a href="/research" className="text-xs text-brand">
+            Open research lab →
+          </a>
           <p className="hidden truncate text-xs text-muted sm:block">
             {APP.tagline}
           </p>

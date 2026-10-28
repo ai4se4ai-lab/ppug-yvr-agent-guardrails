@@ -1,0 +1,16 @@
+{
+  "url": "https://ppug-yvr-agent-guardrails.steady-century.workers.dev",
+  "cloudflareVersionId": "7426b2e5-02ae-491f-9ac1-669102c0b070",
+  "buildId": "dc619017801391ec3c156ffb10afaed1b3f4c45c2b243903d324bbe0aa572a87",
+  "checks": {
+    "health": true,
+    "researchPage": true,
+    "publishedReportsMatchLocal": true,
+    "figure": true,
+    "unauthorizedApiRejected": true,
+    "researchSessionProtected": true,
+    "liveAssessment": true
+  },
+  "liveModelId": "@cf/cloudflare/clef-flash",
+  "liveLatencyMs": 414
+}

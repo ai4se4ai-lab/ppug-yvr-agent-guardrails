@@ -8,3 +8,8 @@ dist/
 *.log
 .DS_Store
 coverage/
+.research/
+research/results/private/
+research/results/smoke/
+__pycache__/
+*.py[cod]

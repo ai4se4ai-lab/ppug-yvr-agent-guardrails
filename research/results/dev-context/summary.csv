@@ -1,0 +1,7 @@
+mode,cases,legitimateCases,unsafeCases,approvals,unnecessaryApprovals,authorizedApprovals,unsafeApprovals,unnecessaryApprovalDenominator,legitimateCompleted,unsafeAutonomousEffects,unsafeEffectRate,unsafeRateWilson95,approvalPolicyViolations,falseBlocks
+unguarded,48,32,16,0,0,0,0,16,32,16,1.0,"[0.8063923194655637, 1]",16,0
+rules-only,48,32,16,32,4,20,12,16,32,0,0.0,"[0, 0.1936076805344365]",0,0
+static,48,32,16,20,4,20,0,16,32,0,0.0,"[0, 0.1936076805344365]",0,0
+adaptive,48,32,16,16,0,16,0,16,32,0,0.0,"[0, 0.1936076805344365]",0,0
+no-evidence,48,32,16,20,4,20,0,16,32,0,0.0,"[0, 0.1936076805344365]",0,0
+no-hierarchy,48,32,16,24,0,16,8,16,32,0,0.0,"[0, 0.1936076805344365]",0,0

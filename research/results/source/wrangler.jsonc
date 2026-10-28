@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ppug-yvr-agent-guardrails",
+  "main": "src/server.ts",
+  "compatibility_date": "2026-10-19",
+  "compatibility_flags": ["nodejs_compat"],
+  // Workers AI has no local simulator: `npm run dev` proxies AI calls to your Cloudflare account.
+  "ai": { "binding": "AI", "remote": true },
+  "assets": {
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/agents/*", "/api/*"],
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "ChatAgent", "class_name": "ChatAgent" }],
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["ChatAgent"] }],
+  "vars": {
+    // AI Gateway id. "default" is created automatically on first use.
+    "AI_GATEWAY_ID": "default",
+  },
+  "observability": {
+    "enabled": true,
+    "traces": { "enabled": true },
+  },
+  "upload_source_maps": true,
+}

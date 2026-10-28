@@ -1,5 +1,13 @@
 # Agent Guardrails
 
+This research fork adds **Context Guard**, an adaptive policy explorer at `/research`,
+authenticated live model assessments, fixed-policy baselines and ablations, an AgentDojo
+adapter, and a controlled development-context evaluation. See [research/README.md](research/README.md)
+for the protocol and reproduction commands, and [the measured pilot report](research/results/REPORT.md)
+for results and limitations. The research policies are authored rules, not online learning.
+The support tool gate now includes basic disclosure/mismatch blocking and mutation approval;
+the original checkpoint instructions below describe the starter's extension points.
+
 **Cloudflare Peer Point User Group: System One hackathon starter**
 
 A stateful support agent ("Nimbus" for the fictional Acme Cloud) protected by **Agent Guardrails**

@@ -4,12 +4,13 @@ import "./styles.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./ui/App";
+import { ResearchLab } from "./ui/ResearchLab";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("#root element missing from index.html");
 
 createRoot(root).render(
   <StrictMode>
-    <App />
+    {location.pathname.startsWith("/research") ? <ResearchLab /> : <App />}
   </StrictMode>,
 );

@@ -1,0 +1,18 @@
+{
+  "runId": "20261028T225439Z-eb2762",
+  "tasks": [
+    "user_task_0",
+    "user_task_1",
+    "user_task_2",
+    "user_task_3"
+  ],
+  "modes": [
+    "unguarded",
+    "static",
+    "adaptive"
+  ],
+  "injection": "injection_task_0",
+  "maxSteps": 8,
+  "maxProposalCalls": 192,
+  "reviewer": "defer-all"
+}
